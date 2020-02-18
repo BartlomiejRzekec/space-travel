@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="postTourist.js"></script>
+</head>
+<body>
+
+	<div id="PostResultDiv"></div>
+
+	<div class="container">
+		<form id="touristForm" action="/action_page.php" class="was-validated">
+			<div class="form-group">
+				<label for="firstName">First Name:</label> <input type="text"
+					class="form-control" id="firstName" placeholder="Enter first name"
+					name="firstName" required>
+				<div class="valid-feedback">Valid.</div>
+				<div class="invalid-feedback">Please fill out this field.</div>
+			</div>
+			<div class="form-group">
+				<label for="lastName">Last Name:</label> <input type="text"
+					class="form-control" id="lastName" placeholder="Enter last name"
+					name="lastName" required>
+				<div class="valid-feedback">Valid.</div>
+				<div class="invalid-feedback">Please fill out this field.</div>
+			</div>
+			<div class="form-group">
+				<label for="gender" class="col-sm-2 control-label">Gender:</label>
+				<div class="col-sm-2">
+					<select class="form-control" name="gender" id="gender">
+						<option>Male</option>
+						<option>Female</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+
+				<label for="gender" class="col-sm-2 control-label">Gender:</label>
+				<div class="col-sm-2">
+					<select class="form-control" name="gender" id="gender">
+						<option>Male</option>
+						<option>Female</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="notes">Notes:</label>
+				<textarea class="form-control" rows="5" id="notes"></textarea>
+			</div>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+		<br>
+		<button id="getBooksButton" class="btn btn-primary">Find
+			books</button>
+		<div id="getResult">
+			<ul class="list-group"></ul>
+		</div>
+	</div>
+
+</body>
+</html>
