@@ -1,6 +1,7 @@
 $(document).ready(function () {
 	
-    $("#touristForm").submit(function (event) {
+//	$('#date').datepicker({ dateFormat: 'dd-mm-yy' })
+    $("#touristFormEdit").submit(function (event) {
         event.preventDefault();
         ajax_submit();
     });
@@ -9,6 +10,8 @@ $(document).ready(function () {
 function ajax_submit() {
 
     var formData = {
+    		
+    		id :	$("#id").val(),
     	firstName :	$("#firstName").val(),
     	lastName :	$("#lastName").val(),
     	gender :	$("#gender").val(),

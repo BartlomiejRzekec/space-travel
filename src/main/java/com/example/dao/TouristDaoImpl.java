@@ -1,53 +1,49 @@
 package com.example.dao;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
+import java.util.List;
 
-
-import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.example.dto.TouristDto;
 import com.example.entities.Tourist;
-import com.example.utilities.FlightsGenerator;
 
 @Component
 public class TouristDaoImpl implements TouristDao {
 	
-	private SessionFactory sessionFactory;
-	
+	private final SessionFactory sessionFactory;
 	
 	@Autowired
 	public TouristDaoImpl(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
-
-
-	@Override
-//	@EventListener
-	public void saveTourist(ApplicationReadyEvent event) {
-		try {
-			sessionFactory.getCurrentSession().persist(FlightsGenerator.generateTourist());
-		} catch (HibernateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-	}
-
-
-
 	@Override
 	public void saveTourist(Tourist tourist) {
-		sessionFactory.getCurrentSession().persist(tourist);
+		sessionFactory.getCurrentSession().save(tourist);
 	}
-	
 
+	@Override
+	public List<TouristDto> findAllTourists() {
+		String hql = "Select new com.example.dto.TouristDto(t.id, t.firstName, t.lastName, t.gender, t.country, t.birthDate) FROM Tourist t";
+		Query<TouristDto> query = sessionFactory.getCurrentSession().createQuery(hql);
+		return query.list();
+	}
+
+	@Override
+	public Tourist findTourist(long id) {
+		return sessionFactory.getCurrentSession().get(Tourist.class, id);
+	}
+
+	@Override
+	public void deleteTourist(Tourist tourist) {
+		sessionFactory.getCurrentSession().delete(tourist);
+	}
+
+	@Override
+	public void updateTourist(Tourist tourist) {
+		sessionFactory.getCurrentSession().update(tourist);
+	}
 }

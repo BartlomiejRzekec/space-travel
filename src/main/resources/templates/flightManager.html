@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Flight manager</title>
+<script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<link rel="stylesheet" type="text/css"
+        href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/tourist.css"/> 
+  </head>
+<body>
+
+<div id="wrapper">
+
+	<div class="btn-group-vertical" id="leftDiv">
+		<a href="flightForm" class="btn btn-primary btn-block active" role="button" aria-disabled="true">Add Flight</a>
+	</div>
+
+	<table id="rightTable" class="table table-striped">
+    <thead>
+	    <tr>
+	      <th>Id</th>
+	      <th>Departure date</th>
+	      <th>Date of arrival</th>
+	      <th>Number of seats</th>
+	       <th>Ticket price</th>
+	    </tr>
+    </thead>
+    <tbody>
+    	<tr th:each="flight : ${flightsList}">
+    		<td th:text="${flight.id}"></td>
+    		<td th:text="${flight.departureDate}"></td>
+    		<td th:text="${flight.dateOfArrival}"></td>
+    		<td th:text="${flight.numberOfSeats}"></td>
+    		<td th:text="${flight.ticketPrice}"></td>
+    		<td> <a th:href="@{/deleteFlight/(id=${flight.id})}" class="btn btn-primary">Delete</a></td>
+    		<td> <a th:href="@{/editFlight/(id=${flight.id})}" class="btn btn-primary">Edit</a></td>
+    	</tr>
+    </tbody>
+    </table>
+    
+
+</div>
+	
+
+</body>
+</html>

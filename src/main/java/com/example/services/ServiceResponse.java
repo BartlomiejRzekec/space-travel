@@ -3,13 +3,13 @@ package com.example.services;
 public class ServiceResponse<T> {
 
 	private String status;
-	private T object;
+	private T data;
 
-	public ServiceResponse(String status, T object) {
-		super();
+	public ServiceResponse(String status, T data) {
 		this.status = status;
-		this.object = object;
+		this.data = data;
 	}
+
 
 	public String getStatus() {
 		return status;
@@ -19,12 +19,11 @@ public class ServiceResponse<T> {
 		this.status = status;
 	}
 
-	public T getObject() {
-		return object;
+	public T getData() {
+		return data;
 	}
 
-	public void setObject(T object) {
-		this.object = object;
+	public void setData(T data) {
+		this.data = data;
 	}
-
 }

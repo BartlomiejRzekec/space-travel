@@ -1,15 +1,23 @@
 package com.example.dao;
 
+import java.util.List;
 
-import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.dto.TouristDto;
 import com.example.entities.Tourist;
 
+@Transactional
 public interface TouristDao {
 
-	@Transactional
 	void saveTourist(Tourist tourist);
-	@Transactional
-	void saveTourist(ApplicationReadyEvent event);
+	
+	List<TouristDto> findAllTourists();
+	
+	Tourist findTourist(long id);
+	
+	void deleteTourist(Tourist tourist);
+	
+	void updateTourist(Tourist tourist);
 }

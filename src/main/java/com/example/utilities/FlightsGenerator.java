@@ -4,30 +4,20 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
-import org.hibernate.Session;
-import org.springframework.data.jpa.provider.HibernateUtils;
 
 import com.example.entities.Flight;
 import com.example.entities.Tourist;
 
 public class FlightsGenerator {
-	
 	
 	public static List<String> listOfCountries() throws IOException, URISyntaxException {
 		
@@ -37,16 +27,6 @@ public class FlightsGenerator {
 						.flatMap(Arrays::stream)
 						.filter(e -> e.length() > 2)
 						.collect(Collectors.toList());
-	}
-	
-	private static LocalDate date() {
-	    return LocalDate.ofEpochDay(ThreadLocalRandom
-	      .current().nextInt(-(50 * 365), 50 * 365));
-	}
-	
-	private static LocalDateTime dateTime() {
-		LocalDateTime now  = LocalDateTime.now();
-		return now.plusMinutes(ThreadLocalRandom.current().nextInt(10 * 365 * 24 * 60));
 	}
 	
 	public static List<Tourist> generateListOfTourists() throws IOException, URISyntaxException{
@@ -60,25 +40,37 @@ public class FlightsGenerator {
 	
 	public static Tourist generateTourist() throws IOException, URISyntaxException {
 		Tourist tourist = new Tourist();
-		tourist.setFirstName(firstNames.get((int) Math.random() * firstNames.size()));
-		tourist.setLastName(lastNames.get((int) Math.random() * lastNames.size()));
-		tourist.setGender(genders.get((int) Math.random() * 1));
-		tourist.setCountry(listOfCountries().get((int) Math.random() * listOfCountries().size()));
+		tourist.setFirstName(firstNames.get((int) (Math.random() * firstNames.size())));
+		tourist.setLastName(lastNames.get((int) (Math.random() * lastNames.size())));
+		tourist.setGender(genders.get((int) (Math.random() * 2)));
+		tourist.setCountry(listOfCountries().get((int) (Math.random() * listOfCountries().size())));
 		tourist.setNotes("some notes");
 		tourist.setBirthDate(date());
+		tourist.setListOfFlights(new ArrayList<>());
 		return tourist;
 	}
 	
 	public static Flight generateFlight() {
+		Random random = new Random();
 		Flight flight = new Flight();
-		LocalDateTime departmentDate = dateTime();
-		flight.setDateOfArrival(departmentDate);
-		flight.setDepartureDate(departmentDate.plusMinutes(30 * 24 * 60));
-		flight.setNumberOfSeats(11);
+		LocalDateTime daparture = dateTime();
+		
+		flight.setDepartureDate(daparture);
+		flight.setDateOfArrival(daparture.plusMinutes((random.nextInt(20) * 24 * 60) + 5));
 		flight.setTicketPrice((int) ((Math.random() * 5) + 1) * 1000);
+		flight.setListOfTourists(new ArrayList<>());
 		return flight;
 	}
 	
+	private static LocalDate date() {
+	    return LocalDate.ofEpochDay(ThreadLocalRandom
+	      .current().nextInt(-(50 * 365), 50 * 365));
+	}
+	
+	private static LocalDateTime dateTime() {
+		LocalDateTime now  = LocalDateTime.now();
+		return now.plusMinutes(ThreadLocalRandom.current().nextInt(10 * 365 * 24 * 60));
+	}
 	
 	static List<String> genders = Arrays.asList("male", "female");
 

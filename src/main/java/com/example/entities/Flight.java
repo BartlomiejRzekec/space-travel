@@ -5,12 +5,16 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 public class Flight {
@@ -20,18 +24,21 @@ public class Flight {
 	private long id;
 	private LocalDateTime departureDate;
 	private LocalDateTime dateOfArrival;
-	private int numberOfSeats;
+	private int numberOfSeats = 11;
 	private int ticketPrice;
 	
 	
-	@ManyToMany(mappedBy="listOfFlights", cascade=CascadeType.ALL)
+	@ManyToMany( cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
+	@JoinTable(name = "tourists_and_flights", 
+				joinColumns = @JoinColumn(name = "flight_id"), 
+				inverseJoinColumns = @JoinColumn(name = "tourist_id"))
+	@Fetch(FetchMode.JOIN)
 	private List<Tourist> listOfTourists;
 
-	public Flight(LocalDateTime departureDate, LocalDateTime dateOfArrival, int numberOfSeats, int ticketPrice,
+	public Flight(LocalDateTime departureDate, LocalDateTime dateOfArrival, int ticketPrice,
 			List<Tourist> listOfTourists) {
 		this.departureDate = departureDate;
 		this.dateOfArrival = dateOfArrival;
-		this.numberOfSeats = numberOfSeats;
 		this.ticketPrice = ticketPrice;
 		this.listOfTourists = listOfTourists;
 	}
@@ -47,6 +54,12 @@ public class Flight {
 
 	public long getId() {
 		return id;
+	}
+	
+	
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public LocalDateTime getDepartureDate() {
@@ -69,10 +82,6 @@ public class Flight {
 		return numberOfSeats;
 	}
 
-	public void setNumberOfSeats(int numberOfSeats) {
-		this.numberOfSeats = numberOfSeats;
-	}
-
 	public int getTicketPrice() {
 		return ticketPrice;
 	}
@@ -88,5 +97,4 @@ public class Flight {
 	public void setListOfTourists(List<Tourist> listOfTourists) {
 		this.listOfTourists = listOfTourists;
 	}
-
 }

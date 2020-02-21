@@ -5,12 +5,16 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 public class Tourist {
@@ -25,8 +29,8 @@ public class Tourist {
 	private String notes;
 	private LocalDate birthDate;
 	
-	@ManyToMany(cascade=CascadeType.ALL)
-	@JoinTable(name = "tourists_and_flights", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "tourist_id"))
+	@ManyToMany(mappedBy="listOfTourists")
+	@Fetch(FetchMode.JOIN)
 	private List<Flight> listOfFlights;
 
 	public Tourist(String firstName, String lastName, String gender, String country, String notes, LocalDate birthDate,
@@ -39,13 +43,25 @@ public class Tourist {
 		this.birthDate = birthDate;
 		this.listOfFlights = listOfFlights;
 	}
+	
+	
+
+	public Tourist(long id, String firstName, String lastName, String gender, String country, LocalDate birthDate) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.gender = gender;
+		this.country = country;
+		this.birthDate = birthDate;
+	}
+
+
 
 	public Tourist() {
 		
 	}
 	
-	
-
 	public long getId() {
 		return id;
 	}
@@ -105,6 +121,4 @@ public class Tourist {
 	public void setListOfFlights(List<Flight> listOfFlights) {
 		this.listOfFlights = listOfFlights;
 	}
-
-	
 }

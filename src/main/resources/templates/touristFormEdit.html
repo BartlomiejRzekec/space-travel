@@ -20,7 +20,7 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
-<script type="text/javascript" src="postTourist.js"></script>
+<!-- <script type="text/javascript" src="postTouristEdit.js"></script> -->
 
 </head>
 <body>
@@ -28,19 +28,22 @@
 	<div id="PostResultDiv"></div>
 	
 
-	<div class="container">
-		<form id="touristForm" method="POST" class="was-validated" th:action="@{/saveTourist}">
+	<div class="myForm">
+		<form id="touristFormEdit" method="POST" class="was-validated" th:action="@{/editTourist}" th:object="${touristToEdit}">
+		<div class="form-group">
+					<input type="hidden" class="form-control" id="id" th:field=*{id}/>
+			</div>
 			<div class="form-group">
 				<label for="firstName">First Name:</label> <input type="text"
 					class="form-control" id="firstName" placeholder="Enter first name"
-					name="firstName" required />
+					th:field=*{firstName} required />
 				<div class="valid-feedback">Valid.</div>
 				<div class="invalid-feedback">Please fill out this field.</div>
 			</div>
 			<div class="form-group">
 				<label for="lastName">Last Name:</label> <input type="text"
 					class="form-control" id="lastName" placeholder="Enter last name"
-					name="lastName" required/>
+					th:field=*{lastName} required/>
 				<div class="valid-feedback">Valid.</div>
 				<div class="invalid-feedback">Please fill out this field.</div>
 			</div>
@@ -48,9 +51,9 @@
 				<label for="gender" class="col-sm-2 control-label">Select
 					gender:</label>
 				<div class="col-sm-2">
-					<select class="form-control" name="gender" id="gender">
-						<option>Male</option>
-						<option>Female</option>
+					<select class="form-control" th:field="*{gender}" id="gender">
+						<option th:value="'M'" th:text="Male">Male</option>
+						<option th:value="'F'" th:text="Female">Female</option>
 					</select>
 				</div>
 			</div>
@@ -58,7 +61,7 @@
 				<label for="gender" class="col-sm-2 control-label">Select
 					country:</label>
 				<div class="col-sm-2">
-					<select class="form-control" id="country">
+					<select class="form-control" th:field="${countries}" id="country">
 						<option value="0">Select country:</option>
 						<option th:each="country : ${countries}" th:value="${country}"
 							th:text="${country}"></option>
@@ -67,7 +70,7 @@
 			</div>
 			<div class="form-group">
 				<label for="notes">Notes:</label>
-				<textarea class="form-control" rows="5" id="notes"></textarea>
+				<textarea class="form-control" th:field="*{notes}" rows="5" id="notes"></textarea>
 			</div>
 			<div class="form-group">
 				<!-- Date input -->

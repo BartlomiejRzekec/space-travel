@@ -20,20 +20,21 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
-<script type="text/javascript" src="postFlight.js"></script>
-
 </head>
 <body>
 
 	<div id="PostResultDiv"></div>
 	
 
-	<div class="container">
-		<form id="flightForm" method="POST" class="was-validated" th:action="@{/saveFlight}">
+	<div class="myForm">
+		<form id="flightFormEdit" method="POST" class="was-validated" th:action="@{/editFlight}" th:object="${flightToEdit}">
+			<div class="form-group">
+					<input type="hidden" class="form-control" id="id" th:field=*{id}/>
+			</div>
 			<div class="form-group">
 				<label for="ticketPrice">Ticket price:</label> <input type="text"
 					class="form-control" id="ticketPrice" placeholder="Enter ticketPrice"
-					name="ticketPrice" required />
+					th:field=*{ticketPrice} required />
 				<div class="valid-feedback">Valid.</div>
 				<div class="invalid-feedback">Please fill out this field.</div>
 			</div>
@@ -42,7 +43,34 @@
 					class="form-control" id="date" name="date" placeholder="MM/DD/YYY"
 					type="text" value=""/>
 			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Select
+					Flight:</label>
+				<div class="col-sm-2">
+					<select class="form-control" th:field="${flight.departureDate}" id="flight">
+						<option value="0">Select country:</option>
+						<option th:each="flight : ${flightsList}" th:value="${flight.departureDate}"
+							th:text="${flight.departureDate}"></option>
+					</select>
+				</div>
+			</div>
 			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+		
+		<form th:action="@{/flightSearcher}" method="POST" th:object="${flight}">
+			<table width="400" align="left">
+					<tr>
+						<td width="70" align="right">Set departure date from:</td>
+						<td width="270" align="left"><input type="text" th:field="*{departureDate}"></td>				
+					</tr>
+					<tr>
+						<td width="70" align="right">Set departure date to:</td>
+						<td width="270" align="left"><input type="text" th:field="*{dateOfArrival}"></td>			
+					</tr>
+					<tr>
+						<td> <input type="submit" value="Find" /></td>				
+					</tr>
+			</table>		
 		</form>
 	</div>
 
